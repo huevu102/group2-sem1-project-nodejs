@@ -28,8 +28,8 @@ const mysql = require("mysql");
 const conn = mysql.createConnection(configDB);
 
 // api list call data
-app.get("/get-data", function (req, res) {
-    const sql = "select * from classes";
+app.get("/get-product", function (req, res) {
+    const sql = "select * from group2_test_products";
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
