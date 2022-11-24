@@ -42,8 +42,9 @@ app.get("/get-category", function (req, res) {
 
 // sub-category by Sub_Categories
 app.get("/get-sub-category", function (req, res) {
-    const sub = req.query.sub;
-    const sql = `select * from Group2_Products where cid in (select cid from Group2_Categories where Sub_Categories like '${sub}')`;
+    const subCate = req.query.subCate;
+    const sql = `select * from Group2_Products where cid in (select cid from Group2_Categories where Sub_Categories like '${subCate}')`;
+    console.log(sql);
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
