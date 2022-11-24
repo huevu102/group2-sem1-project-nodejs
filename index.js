@@ -29,7 +29,7 @@ const conn = mysql.createConnection(configDB);
 
 // category by Categories_Name
 app.get("/get-category", function (req, res) {
-    let cate = req.query.cate;
+    const cate = req.query.cate;
     const sql = `select * from Group2_Products where cid in (select cid from Group2_Categories where Categories_Name like '${cate}')`;
     conn.query(sql, function (err, data) {
         if(err){
@@ -42,7 +42,7 @@ app.get("/get-category", function (req, res) {
 
 // sub-category by Sub_Categories
 app.get("/get-sub-category", function (req, res) {
-    let sub = req.query.sub;
+    const sub = req.query.sub;
     const sql = `select * from Group2_Products where cid in (select cid from Group2_Categories where Sub_Categories like '${sub}')`;
     conn.query(sql, function (err, data) {
         if(err){
@@ -53,7 +53,8 @@ app.get("/get-sub-category", function (req, res) {
     })
 });
 
-// rings
+
+// TEST rings
 app.get("/get-rings", function (req, res) {
     const sql = `select * from Group2_Products where cid in (select cid from Group2_Categories where Categories_Name like 'Rings')`;
     conn.query(sql, function (err, data) {
