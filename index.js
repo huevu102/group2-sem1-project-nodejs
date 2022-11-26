@@ -55,6 +55,21 @@ app.get("/get-sub-category", function (req, res) {
 });
 
 
+// product by pid
+app.get("/get-product", function (req, res) {
+    const pid = req.query.pid;
+    const sql = `select * from Group2_Products where pid =` + pid;
+    console.log(sql);
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }else{
+            res.send(data);
+        }
+    })
+});
+
+
 // TEST rings
 app.get("/get-rings", function (req, res) {
     const sql = `select * from Group2_Products where cid in (select cid from Group2_Categories where Categories_Name like 'Rings')`;
