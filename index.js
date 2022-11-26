@@ -30,7 +30,9 @@ const conn = mysql.createConnection(configDB);
 // category by cid
 app.get("/get-category", function (req, res) {
     const cid = req.query.cid;
-    const sql = `select * from Group2_Products where sid in (select sid from Group2_Categories where cid = '${cid}')`;
+    const sql = `select * from Group2_Products P
+                    left join Group2_Categories C on P.sid = C.sid
+                    where C.cid =` + cid;
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
@@ -43,7 +45,9 @@ app.get("/get-category", function (req, res) {
 // sub-category by sid
 app.get("/get-sub-category", function (req, res) {
     const sid = req.query.sid;
-    const sql = `select * from Group2_Products where sid =` + sid;
+    const sql = `select * from Group2_Products P 
+                    left join Group2_Categories C on P.sid = C.sid
+                    where P.sid =` + sid;
     console.log(sql);
     conn.query(sql, function (err, data) {
         if(err){
