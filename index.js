@@ -58,8 +58,10 @@ app.get("/get-sub-category", function (req, res) {
 // product by pid
 app.get("/get-product", function (req, res) {
     const pid = req.query.pid;
-    const sql = `select * from Group2_Products P left join Group2_Medias M on P.pid = M.pid
-       where P.pid =` + pid;
+    const sql = `select * from Group2_Products P
+                    left join Group2_Medias M on P.pid = M.pid
+                    left join Group2_Categories C on P.sid = C.sid
+                    where P.pid =` + pid;
     console.log(sql);
     conn.query(sql, function (err, data) {
         if(err){
