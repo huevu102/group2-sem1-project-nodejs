@@ -65,7 +65,7 @@ app.get("/get-product", function (req, res) {
                     left join Group2_Medias M on M.pid = P.pid
                     left join Group2_Categories Cate on Cate.sid = P.sid
                     left join Group2_Reviews R on R.pid = P.pid
-                    left join Group2_Customers C on C.id = R.cusid
+                    left join Group2_Customers C on C.cusid = R.cusid
                     where P.pid =` + pid;
     conn.query(sql, function (err, data) {
         if(err){
