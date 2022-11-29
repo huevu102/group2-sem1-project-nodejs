@@ -31,7 +31,7 @@ const conn = mysql.createConnection(configDB);
 app.get("/get-category", function (req, res) {
     const cid = req.query.cid;
     const sql = `select * from Group2_Products P
-                    left join Group2_Categories C on P.sid = C.sid
+                    left join Group2_Categories C on C.sid = P.sid
                     where C.cid =` + cid;
     conn.query(sql, function (err, data) {
         if(err){
@@ -46,7 +46,7 @@ app.get("/get-category", function (req, res) {
 app.get("/get-sub-category", function (req, res) {
     const sid = req.query.sid;
     const sql = `select * from Group2_Products P 
-                    left join Group2_Categories C on P.sid = C.sid
+                    left join Group2_Categories C on C.sid = P.sid
                     where P.sid =` + sid;
     conn.query(sql, function (err, data) {
         if(err){
@@ -62,9 +62,9 @@ app.get("/get-sub-category", function (req, res) {
 app.get("/get-product", function (req, res) {
     const pid = req.query.pid;
     const sql = `select * from Group2_Products P
-                    left join Group2_Medias M on P.pid = M.pid
-                    left join Group2_Categories C on P.sid = C.sid
-                    where P.pid =` + pid;
+                    left join Group2_Medias M on M.pid = P.pid
+                    left join Group2_Categories C on C.sid = P.sid
+                    group by name where P.pid =` + pid;
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
@@ -75,13 +75,29 @@ app.get("/get-product", function (req, res) {
 });
 
 
-// all product
+// similar product by pid
+app.get("/get-similar-product", function (req, res) {
+    const pid = req.query.pid;
+    const sql = `select * from Group2_Products where sid in
+                    (select sid from Group2_Products where pid = ` + pid + `)`;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }else{
+            res.send(data);
+        }
+    })
+});
+
+
+
+// TEST all product
 app.get("/get-all-product", function (req, res) {
-    const sql = `select distinct * from Group2_Products P
-                    left join Group2_Medias M on P.pid = M.pid
-                    left join Group2_Categories C on P.sid = C.sid
-                    left join Group2_Reviews R on P.pid = R.pid
-                    group by P.pid`;
+    const sql = `select * from Group2_Products P
+                    left join Group2_Medias M on M.pid = P.pid
+                    left join Group2_Categories C on C.sid = P.sid
+                    left join Group2_Reviews R on R.pid = P.pid
+                    group by P.name`;
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
