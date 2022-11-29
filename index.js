@@ -64,7 +64,7 @@ app.get("/get-product", function (req, res) {
     const sql = `select * from Group2_Products P
                     left join Group2_Medias M on M.pid = P.pid
                     left join Group2_Categories C on C.sid = P.sid
-                    group by name where P.pid =` + pid;
+                    where P.pid =` + pid;
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
