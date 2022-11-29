@@ -48,7 +48,6 @@ app.get("/get-sub-category", function (req, res) {
     const sql = `select * from Group2_Products P 
                     left join Group2_Categories C on P.sid = C.sid
                     where P.sid =` + sid;
-    console.log(sql);
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
@@ -66,7 +65,23 @@ app.get("/get-product", function (req, res) {
                     left join Group2_Medias M on P.pid = M.pid
                     left join Group2_Categories C on P.sid = C.sid
                     where P.pid =` + pid;
-    console.log(sql);
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }else{
+            res.send(data);
+        }
+    })
+});
+
+
+// all product
+app.get("/get-all-product", function (req, res) {
+    const sql = `select distinct * from Group2_Products P
+                    left join Group2_Medias M on P.pid = M.pid
+                    left join Group2_Categories C on P.sid = C.sid
+                    left join Group2_Reviews R on P.pid = R.pid
+                    group by P.pid`;
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
