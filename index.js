@@ -42,6 +42,21 @@ app.get("/get-category", function (req, res) {
     })
 });
 
+
+// sub-category by cid
+app.get("/get-sub-by-cid", function (req, res) {
+    const cid = req.query.cid;
+    const sql = `select * from Group2_Categories where cid = ` + cid;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }else{
+            res.send(data);
+        }
+    })
+});
+
+
 // sub-category by sid
 app.get("/get-sub-category", function (req, res) {
     const sid = req.query.sid;
@@ -64,8 +79,6 @@ app.get("/get-product", function (req, res) {
     const sql = `select * from Group2_Products P
                     left join Group2_Medias M on M.pid = P.pid
                     left join Group2_Categories Cate on Cate.sid = P.sid
-                    left join Group2_Reviews R on R.pid = P.pid
-                    left join Group2_Customers C on C.cusid = R.cusid
                     where P.pid =` + pid;
     conn.query(sql, function (err, data) {
         if(err){
