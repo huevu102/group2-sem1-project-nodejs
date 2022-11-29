@@ -92,6 +92,21 @@ app.get("/get-similar-product", function (req, res) {
 });
 
 
+// review by pid
+app.get("/get-review", function (req, res) {
+    const pid = req.query.pid;
+    const sql = `select * from Group2_Reviews R
+                    left join Group2_Customers C on C.cusid = R.cusid
+                    where R.pid = ` + pid;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }else{
+            res.send(data);
+        }
+    })
+});
+
 
 // TEST all product
 app.get("/get-all-product", function (req, res) {
