@@ -63,7 +63,9 @@ app.get("/get-product", function (req, res) {
     const pid = req.query.pid;
     const sql = `select * from Group2_Products P
                     left join Group2_Medias M on M.pid = P.pid
-                    left join Group2_Categories C on C.sid = P.sid
+                    left join Group2_Categories Cate on Cate.sid = P.sid
+                    left join Group2_Reviews R on R.pid = P.pid
+                    left join Group2_Customers C on C.id = R.cusid
                     where P.pid =` + pid;
     conn.query(sql, function (err, data) {
         if(err){
@@ -75,7 +77,7 @@ app.get("/get-product", function (req, res) {
 });
 
 
-// similar product by pid
+// similar product by pid/sid
 app.get("/get-similar-product", function (req, res) {
     const pid = req.query.pid;
     const sql = `select * from Group2_Products where sid in
