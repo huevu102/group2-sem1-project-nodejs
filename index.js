@@ -136,6 +136,66 @@ app.get("/get-review-by-pid", function (req, res) {
 });
 
 
+// rings
+app.get("/get-rings", function (req, res) {
+    const sql = `select * from Group2_Products P left join Group2_Categories C on C.sid = P.sid
+                    where C.cate_name like 'Rings'`;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }
+        else{
+            res.send(data);
+        }
+    })
+});
+
+
+// earrings
+app.get("/get-earrings", function (req, res) {
+    const sql = `select * from Group2_Products P left join Group2_Categories C on C.sid = P.sid
+                    where C.cate_name like 'Earrings'`;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }
+        else{
+            res.send(data);
+        }
+    })
+});
+
+
+// bracelets
+app.get("/get-bracelets", function (req, res) {
+    const sql = `select * from Group2_Products P left join Group2_Categories C on C.sid = P.sid
+                    where C.cate_name like 'Bracelets'`;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }
+        else{
+            res.send(data);
+        }
+    })
+});
+
+
+// necklaces
+app.get("/get-necklaces", function (req, res) {
+    const sql = `select * from Group2_Products P left join Group2_Categories C on C.sid = P.sid
+                    where C.cate_name like 'Necklaces'`;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }
+        else{
+            res.send(data);
+        }
+    })
+});
+
+
 // TEST all product
 app.get("/get-all-product", function (req, res) {
     const sql = `select * from Group2_Products P left join Group2_Categories C on C.sid = P.sid`;
@@ -146,18 +206,4 @@ app.get("/get-all-product", function (req, res) {
             res.send(data);
         }
     })
-});
-
-
-// TEST rings
-app.get("/get-rings", function (req, res) {
-    const sql = `select * from Group2_Products where cid in (select cid from Group2_Categories where Categories_Name like 'Rings')`;
-    conn.query(sql, function (err, data) {
-        if(err){
-            res.send("404 not found");
-        }
-        else{
-            res.send(data);
-        }
-    })
-});
+})
