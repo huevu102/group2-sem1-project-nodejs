@@ -28,7 +28,7 @@ const mysql = require("mysql");
 const conn = mysql.createConnection(configDB);
 
 // category by cid
-app.get("/get-category", function (req, res) {
+app.get("/get-category-by-cid", function (req, res) {
     const cid = req.query.cid;
     const sql = `select * from Group2_Products P
                     left join Group2_Categories C on C.sid = P.sid
@@ -41,6 +41,20 @@ app.get("/get-category", function (req, res) {
         }
     })
 });
+
+
+// category
+app.get("/get-category", function (req, res) {
+    const sql = `select * from Group2_Products P left join Group2_Categories C on C.sid = P.sid`;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }else{
+            res.send(data);
+        }
+    })
+});
+
 
 
 // sub-category by cid
@@ -58,7 +72,7 @@ app.get("/get-sub-by-cid", function (req, res) {
 
 
 // sub-category by sid
-app.get("/get-sub-category", function (req, res) {
+app.get("/get-sub-category-by-sid", function (req, res) {
     const sid = req.query.sid;
     const sql = `select * from Group2_Products P 
                     left join Group2_Categories C on C.sid = P.sid
@@ -74,7 +88,7 @@ app.get("/get-sub-category", function (req, res) {
 
 
 // product by pid
-app.get("/get-product", function (req, res) {
+app.get("/get-product-by-pid", function (req, res) {
     const pid = req.query.pid;
     const sql = `select * from Group2_Products P
                     left join Group2_Medias M on M.pid = P.pid
@@ -91,7 +105,7 @@ app.get("/get-product", function (req, res) {
 
 
 // similar product by pid/sid
-app.get("/get-similar-product", function (req, res) {
+app.get("/get-similar-by-pid", function (req, res) {
     const pid = req.query.pid;
     const sql = `select * from Group2_Products where sid in
                     (select sid from Group2_Products where pid = ` + pid + `)`;
@@ -106,7 +120,7 @@ app.get("/get-similar-product", function (req, res) {
 
 
 // review by pid
-app.get("/get-review", function (req, res) {
+app.get("/get-review-by-pid", function (req, res) {
     const pid = req.query.pid;
     const sql = `select * from Group2_Reviews R
                     left join Group2_Customers C on C.cusid = R.cusid
