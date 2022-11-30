@@ -198,7 +198,7 @@ app.get("/get-necklaces", function (req, res) {
 
 // top 3 new arrivals
 app.get("/get-new-arrival", function (req, res) {
-    const sql = `select * from Group2_Products order by pid desc limit 3`;
+    const sql = `select * from Group2_Products order by pid desc limit 6`;
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
