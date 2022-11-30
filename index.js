@@ -58,7 +58,7 @@ app.get("/get-category", function (req, res) {
 
 
 // sub-category by cid
-app.get("/get-sub-by-cid", function (req, res) {
+app.get("/get-sub-category-by-cid", function (req, res) {
     const cid = req.query.cid;
     const sql = `select * from Group2_Categories where cid = ` + cid;
     conn.query(sql, function (err, data) {
@@ -105,7 +105,7 @@ app.get("/get-product-by-pid", function (req, res) {
 
 
 // similar product by pid/sid
-app.get("/get-similar-by-pid", function (req, res) {
+app.get("/get-similar-product-by-pid", function (req, res) {
     const pid = req.query.pid;
     const sql = `select * from Group2_Products where sid in
                     (select sid from Group2_Products where pid = ` + pid + `)`;
