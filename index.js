@@ -123,11 +123,7 @@ app.get("/get-review", function (req, res) {
 
 // TEST all product
 app.get("/get-all-product", function (req, res) {
-    const sql = `select * from Group2_Products P
-                    left join Group2_Medias M on M.pid = P.pid
-                    left join Group2_Categories C on C.sid = P.sid
-                    left join Group2_Reviews R on R.pid = P.pid
-                    group by P.name`;
+    const sql = `select * from Group2_Products P left join Group2_Categories C on C.sid = P.sid`;
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
