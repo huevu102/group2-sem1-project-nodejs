@@ -35,9 +35,11 @@ app.get("/get-category", function (req, res) {
                     where C.cid =` + cid;
     conn.query(sql, function (err, data) {
         if(err){
-            res.send("404 not found");
-        }else{
+            res.status(403).send("Error");
+        }else if(data.length > 0){
             res.send(data);
+        }else{
+            res.status(404).send("404 not found");
         }
     })
 });
@@ -49,9 +51,11 @@ app.get("/get-sub-by-cid", function (req, res) {
     const sql = `select * from Group2_Categories where cid = ` + cid;
     conn.query(sql, function (err, data) {
         if(err){
-            res.send("404 not found");
-        }else{
+            res.status(403).send("Error");
+        }else if(data.length > 0){
             res.send(data);
+        }else{
+            res.status(404).send("404 not found");
         }
     })
 });
@@ -65,9 +69,11 @@ app.get("/get-sub-category", function (req, res) {
                     where P.sid =` + sid;
     conn.query(sql, function (err, data) {
         if(err){
-            res.send("404 not found");
-        }else{
+            res.status(403).send("Error");
+        }else if(data.length > 0){
             res.send(data);
+        }else{
+            res.status(404).send("404 not found");
         }
     })
 });
@@ -82,9 +88,11 @@ app.get("/get-product", function (req, res) {
                     where P.pid =` + pid;
     conn.query(sql, function (err, data) {
         if(err){
-            res.send("404 not found");
+            res.status(403).send("Error");
+        }else if(data.length > 0){
+            res.send(data[0]);
         }else{
-            res.send(data);
+            res.status(404).send("404 not found");
         }
     })
 });
@@ -97,9 +105,11 @@ app.get("/get-similar-product", function (req, res) {
                     (select sid from Group2_Products where pid = ` + pid + `)`;
     conn.query(sql, function (err, data) {
         if(err){
-            res.send("404 not found");
-        }else{
+            res.status(403).send("Error");
+        }else if(data.length > 0){
             res.send(data);
+        }else{
+            res.status(404).send("404 not found");
         }
     })
 });
@@ -113,9 +123,11 @@ app.get("/get-review", function (req, res) {
                     where R.pid = ` + pid;
     conn.query(sql, function (err, data) {
         if(err){
-            res.send("404 not found");
-        }else{
+            res.status(403).send("Error");
+        }else if(data.length > 0){
             res.send(data);
+        }else{
+            res.status(404).send("404 not found");
         }
     })
 });
@@ -130,9 +142,11 @@ app.get("/get-all-product", function (req, res) {
                     group by P.name`;
     conn.query(sql, function (err, data) {
         if(err){
-            res.send("404 not found");
-        }else{
+            res.status(403).send("Error");
+        }else if(data.length > 0){
             res.send(data);
+        }else{
+            res.status(404).send("404 not found");
         }
     })
 });
