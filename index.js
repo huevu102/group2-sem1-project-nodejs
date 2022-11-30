@@ -45,7 +45,8 @@ app.get("/get-category-by-cid", function (req, res) {
 
 // category
 app.get("/get-category", function (req, res) {
-    const sql = `select * from Group2_Products P left join Group2_Categories C on C.sid = P.sid`;
+    const sql = `select distinct C.cid, C.cate_name
+                    from Group2_Products P left join Group2_Categories C on C.sid = P.sid`;
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
