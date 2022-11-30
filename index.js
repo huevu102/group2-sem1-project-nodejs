@@ -210,6 +210,20 @@ app.get("/get-new-arrival", function (req, res) {
 });
 
 
+// // top 12 best sellers
+// app.get("/get-new-arrival", function (req, res) {
+//     const sql = `select * from Group2_Products order by pid desc limit 6`;
+//     conn.query(sql, function (err, data) {
+//         if(err){
+//             res.send("404 not found");
+//         }
+//         else{
+//             res.send(data);
+//         }
+//     })
+// });
+
+
 // TEST all product
 app.get("/get-all-product", function (req, res) {
     const sql = `select * from Group2_Products P left join Group2_Categories C on C.sid = P.sid`;
