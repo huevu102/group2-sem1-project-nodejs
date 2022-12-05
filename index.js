@@ -276,7 +276,7 @@ app.get("/get-new-arrival", function (req, res) {
 });
 
 
-// top 12 best sellers
+// top 12 best seller
 app.get("/get-best-seller", function (req, res) {
     const sql = `select * from Group2_Products where pid in
                     (select pid from Group2_OrderItems group by pid order by quantity desc)`;
