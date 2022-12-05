@@ -105,7 +105,7 @@ app.get("/get-product-by-pid", function (req, res) {
         if(err){
             res.status(403).send("Error");
         }else if(data.length > 0){
-            res.send(data[0]);
+            res.send(data);
         }else{
             res.status(404).send("404 not found");
         }
@@ -117,7 +117,24 @@ app.get("/get-product-by-pid", function (req, res) {
 app.get("/get-similar-product-by-pid", function (req, res) {
     const pid = req.query.pid;
     const sql = `select * from Group2_Products where sid in
-                    (select sid from Group2_Products where pid = ` + pid + `)`;
+                    (select sid from Group2_Products where pid = ` + pid + `) and pid !=` + pid;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.status(403).send("Error");
+        }else if(data.length > 0){
+            res.send(data);
+        }else{
+            res.status(404).send("404 not found");
+        }
+    })
+});
+
+
+// collection by pid
+app.get("/get-collection-by-pid", function (req, res) {
+    const pid = req.query.pid;
+    const sql = `select * from Group2_Products where collection in
+                    (select collection from Group2_Products where pid = ` + pid + `) and pid !=` + pid;
     conn.query(sql, function (err, data) {
         if(err){
             res.status(403).send("Error");
@@ -135,7 +152,7 @@ app.get("/get-review-by-pid", function (req, res) {
     const pid = req.query.pid;
     const sql = `select * from Group2_Reviews R
                     left join Group2_Customers C on C.cusid = R.cusid
-                    where R.pid = ` + pid;
+                    where R.pid = ` + pid + ` order by R.review_date desc`;
     conn.query(sql, function (err, data) {
         if(err){
             res.status(403).send("Error");
@@ -154,11 +171,9 @@ app.get("/get-rings", function (req, res) {
                     where C.cate_name like 'Rings'`;
     conn.query(sql, function (err, data) {
         if(err){
-            res.status(403).send("Error");
-        }else if(data.length > 0){
-            res.send(data);
+            res.send("404 not found");
         }else{
-            res.status(404).send("404 not found");
+            res.send(data);
         }
     })
 });
@@ -209,6 +224,44 @@ app.get("/get-necklaces", function (req, res) {
 });
 
 
+// featured by sid
+app.get("/get-featured-by-sid", function (req, res) {
+    const sid = req.query.sid;
+    const sql = `select * from Group2_Products P
+                    left join Group2_Categories C on C.sid = P.sid
+                    left join Group2_OrderItems O on O.pid = P.pid
+                    where P.sid = ` + sid + ` order by O.quantity desc`;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.status(403).send("Error");
+        }else if(data.length > 0){
+            res.send(data);
+        }else{
+            res.status(404).send("404 not found");
+        }
+    })
+});
+
+
+// featured by cid
+app.get("/get-featured-by-cid", function (req, res) {
+    const cid = req.query.cid;
+    const sql = `select * from Group2_Products P
+                    left join Group2_Categories C on C.sid = P.sid
+                    left join Group2_OrderItems O on O.pid = P.pid
+                    where C.cid = ` + cid + ` order by O.quantity desc`;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.status(403).send("Error");
+        }else if(data.length > 0){
+            res.send(data);
+        }else{
+            res.status(404).send("404 not found");
+        }
+    })
+});
+
+
 // top 3 new arrivals
 app.get("/get-new-arrival", function (req, res) {
     const sql = `select * from Group2_Products order by pid desc limit 6`;
@@ -223,28 +276,30 @@ app.get("/get-new-arrival", function (req, res) {
 });
 
 
-// // top 12 best sellers
-// app.get("/get-new-arrival", function (req, res) {
-//     const sql = `select * from Group2_Products order by pid desc limit 6`;
-//     conn.query(sql, function (err, data) {
-//         if(err){
-//             res.send("404 not found");
-//         }
-//         else{
-//             res.send(data);
-//         }
-//     })
-// });
-
-
-// TEST all product
-app.get("/get-all-product", function (req, res) {
-    const sql = `select * from Group2_Products P left join Group2_Categories C on C.sid = P.sid`;
+// top 12 best sellers
+app.get("/get-best-seller", function (req, res) {
+    const sql = `select * from Group2_Products where pid in
+                    (select pid from Group2_OrderItems group by pid order by quantity desc)`;
     conn.query(sql, function (err, data) {
         if(err){
             res.send("404 not found");
-        }else{
+        }
+        else{
             res.send(data);
         }
     })
-})
+});
+
+
+// TEST get all product
+app.get("/get-all-product", function (req, res) {
+    const sql = `select * from Group2_Products`;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.send("404 not found");
+        }
+        else{
+            res.send(data);
+        }
+    })
+});
