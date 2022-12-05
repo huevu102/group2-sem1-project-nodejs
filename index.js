@@ -94,6 +94,25 @@ app.get("/get-sub-category-by-sid", function (req, res) {
 });
 
 
+// // product by pid (TQH)
+// app.get("/get-product-by-pid", function (req, res) {
+//     const pid = req.query.pid;
+//     const sql = `select * from Group2_Products P
+//                     left join Group2_Categories Cate on Cate.sid = P.sid
+//                     where P.pid = ${pid}; select * from Group2_Medias where pid = ${pid}` ;
+//     conn.query(sql, function (err, data) {
+//         if(err){
+//             res.status(403).send("Error");
+//         }else if(data.length > 0){
+//             var p = data[0][0];
+//             p.medias= data[1];
+//             res.send(p);
+//         }else{
+//             res.status(404).send("404 not found");
+//         }
+//     })
+// });
+
 // product by pid
 app.get("/get-product-by-pid", function (req, res) {
     const pid = req.query.pid;
