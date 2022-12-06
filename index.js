@@ -310,6 +310,26 @@ app.get("/get-best-seller", function (req, res) {
 });
 
 
+// search product by keyword
+app.get("/search-product", function (req, res) {
+    const keyword = req.query.keyword;
+    const sql = `select * from Group2_Products P
+                    left join Group2_Categories C on C.sid = P.sid
+                    where P.name like '%${keyword}%' or P.description like '%${keyword}%' or P.material like '%${keyword}%'
+                    or P.collection like '%${keyword}%' or P.jewellery_type like '%${keyword}%'
+                    or C.cate_name like '%${keyword}%' or C.sub_name like '%${keyword}%'`;
+    conn.query(sql, function (err, data) {
+        if(err){
+            res.status(403).send("Error");
+        }else if(data.length > 0){
+            res.send(data);
+        }else{
+            res.status(404).send("404 not found");
+        }
+    })
+});
+
+
 // TEST get all product
 app.get("/get-all-product", function (req, res) {
     const sql = `select * from Group2_Products`;
