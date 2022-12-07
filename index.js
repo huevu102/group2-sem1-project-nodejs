@@ -315,7 +315,7 @@ app.get("/search-product", function (req, res) {
     const keyword = req.query.keyword;
     const sql = `select * from Group2_Products P
                     left join Group2_Categories C on C.sid = P.sid
-                    where P.name like '%${keyword}%' or P.description like '%${keyword}%' or P.material like '%${keyword}%'
+                    where P.name like '%${keyword}%' or P.material like '%${keyword}%'
                     or P.collection like '%${keyword}%' or P.jewellery_type like '%${keyword}%'
                     or C.cate_name like '%${keyword}%' or C.sub_name like '%${keyword}%'`;
     conn.query(sql, function (err, data) {
