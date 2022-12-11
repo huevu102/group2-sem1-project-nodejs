@@ -94,7 +94,7 @@ app.get("/get-sub-category-by-sid", function (req, res) {
 });
 
 
-// // product by pid (TQH)
+// // product by pid
 // app.get("/get-product-by-pid", function (req, res) {
 //     const pid = req.query.pid;
 //     const sql = `select * from Group2_Products P
@@ -325,20 +325,6 @@ app.get("/search-product", function (req, res) {
             res.send(data);
         }else{
             res.status(404).send("404 not found");
-        }
-    })
-});
-
-
-// TEST get all product
-app.get("/get-all-product", function (req, res) {
-    const sql = `select * from Group2_Products`;
-    conn.query(sql, function (err, data) {
-        if(err){
-            res.send("404 not found");
-        }
-        else{
-            res.send(data);
         }
     })
 });
