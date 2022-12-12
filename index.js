@@ -320,11 +320,10 @@ app.get("/search-product", function (req, res) {
                     or C.cate_name like '%${keyword}%' or C.sub_name like '%${keyword}%'`;
     conn.query(sql, function (err, data) {
         if(err){
-            res.status(403).send("Error");
-        }else if(data.length > 0){
+            res.send("404 not found");
+        }
+        else{
             res.send(data);
-        }else{
-            res.status(404).send("404 not found");
         }
     })
 });
